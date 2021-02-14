@@ -5,3 +5,4 @@ task.json
 some-task.json
 some-other-task.json
 .vscode
+.DS_Store

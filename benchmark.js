@@ -17,7 +17,7 @@ b.suite(
   b.save({
     file: "benchmark-1",
     folder: "benchmark",
-    format: "table.html",
+    format: "chart.html",
   })
 );
 
@@ -34,6 +34,6 @@ b.suite(
   b.save({
     file: "benchmark-2",
     folder: "benchmark",
-    format: "table.html",
+    format: "chart.html",
   })
 );
