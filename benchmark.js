@@ -1,5 +1,5 @@
 const b = require("benny");
-const { syncTask, asyncTask } = require("./app");
+const { syncTask, asyncTask } = require("./test-1");
 
 b.suite(
   "Testing Sync vs Async access to FS",
