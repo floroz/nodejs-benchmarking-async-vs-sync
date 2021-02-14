@@ -24,10 +24,10 @@ b.suite(
   "Testing Sync vs Async access to FS",
 
   b.add("Sync ReadFile", () => {
-    syncTask1();
+    syncTask2();
   }),
   b.add("Async ReadFile", async () => {
-    await asyncTask1();
+    await asyncTask2();
   }),
   b.cycle(),
   b.complete(),
