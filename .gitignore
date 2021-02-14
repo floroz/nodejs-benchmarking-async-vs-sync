@@ -2,3 +2,6 @@ node_modules
 benchmark/
 data.json
 task.json
+some-task.json
+some-other-task.json
+.vscode

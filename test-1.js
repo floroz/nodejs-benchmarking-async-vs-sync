@@ -8,6 +8,11 @@ process.env.UV_THREADPOOL_SIZE = os.cpus().length;
 const someTaskFilePath = path.join(__dirname, "some-task.json");
 const someOtherTaskFilePath = path.join(__dirname, "some-other-task.json");
 
+function createResources() {
+  fs.writeFileSync(someTaskFilePath, JSON.stringify(""));
+  fs.writeFileSync(someOtherTaskFilePath, JSON.stringify(""));
+}
+
 async function doSomeAsyncStuff() {
   fsPromise.readFile(someTaskFilePath);
 
@@ -20,6 +25,7 @@ function doSomeSyncStuff() {
 }
 
 function syncTask() {
+  createResources();
   const data = fs.readFileSync(path.join(__dirname, "data.json"));
   const json = JSON.parse(data.toString());
 
@@ -29,10 +35,9 @@ function syncTask() {
 }
 
 async function asyncTask() {
+  createResources();
   const buffer = await fsPromise.readFile(path.join(__dirname, "data.json"));
   const json = JSON.parse(buffer.toString());
-
-  const filepath = path.join(__dirname, "task.json");
 
   for (const _ of json) {
     doSomeAsyncStuff();

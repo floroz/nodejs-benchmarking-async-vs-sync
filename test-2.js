@@ -10,41 +10,61 @@ const asyncFile = path.join(__dirname, "async.json");
 
 function syncTask() {
   if (!fs.existsSync(syncFile)) {
-    fs.writeFileSync(syncFile, JSON.stringify([]));
+    fs.writeFileSync(syncFile, JSON.stringify({ items: [] }));
   }
   const data = fs.readFileSync(path.join(__dirname, "data.json"));
   const list = JSON.parse(data.toString());
 
   for (const item of list) {
     const data = fs.readFileSync(syncFile).toString();
-    const arr = JSON.parse(data);
+    const { items } = JSON.parse(data);
 
-    const newArr = [...arr, item];
+    const newArr = [...items, item];
 
-    fs.writeFileSync(syncFile, JSON.stringify(newArr));
+    fs.writeFileSync(syncFile, JSON.stringify({ items: newArr }));
   }
 
   fs.unlinkSync(syncFile);
 }
 
 async function asyncTask() {
-  if (!fs.existsSync(syncFile)) {
-    await fs.writeFile(syncFile, JSON.stringify([]));
+  if (!fs.existsSync(asyncFile)) {
+    await fsPromise.writeFile(asyncFile, JSON.stringify({ items: [] }));
   }
-  const data = await fsPromise.readFile(path.join(__dirname, "data.json"));
+
+  let data;
+  try {
+    data = await fsPromise.readFile(path.join(__dirname, "data.json"));
+  } catch (error) {
+    console.error("********** Error in reading data.json");
+    throw new Error(error);
+  }
   const list = JSON.parse(data.toString());
 
   for (const item of list) {
-    const buffer = await fsPromise.readFile(asyncFile);
-    const arr = JSON.parse(buffer.toString());
+    let file;
+    try {
+      const buffer = await fsPromise.readFile(asyncFile);
+      file = buffer.toString();
+    } catch (error) {
+      console.error("********** Error in reading async.json");
+      throw new Error(error);
+    }
 
-    const newArr = [...arr, item];
-
-    await fsPromise.writeFile(asyncFile, JSON.stringify(newArr));
+    const { items } = JSON.parse(file);
+    const newArr = [...items, item];
+    try {
+      await fsPromise.writeFile(asyncFile, JSON.stringify({ items: newArr }));
+    } catch (error) {
+      console.error("********** Error in writing to async.json");
+      throw new Error(error);
+    }
   }
 
   await fsPromise.unlink(asyncFile);
 }
+
+syncTask();
 
 module.exports = {
   syncTask,
