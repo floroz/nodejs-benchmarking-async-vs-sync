@@ -1,0 +1,17 @@
+{
+  "name": "node-performance-test-sync-async",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "setup": "node script.js",
+    "benchmark": "npm run setup && node benchmark.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "benny": "^3.6.15",
+    "faker": "^5.4.0"
+  }
+}
