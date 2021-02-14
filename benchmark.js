@@ -5,10 +5,10 @@ const { syncTask: syncTask2, asyncTask: asyncTask2 } = require("./test-2");
 b.suite(
   "Testing event-loop blocking tasks vs asynchronous tasks: concurrent tasks",
 
-  b.add("Sync Task", () => {
+  b.add("Sync Task 1", () => {
     syncTask1();
   }),
-  b.add("Async Task", async () => {
+  b.add("Async Task 1", async () => {
     await asyncTask1();
   }),
 
@@ -23,10 +23,10 @@ b.suite(
 
 b.suite(
   "Testing event-loop blocking tasks vs asynchronous tasks: access file system",
-  b.add("Sync ReadFile", () => {
+  b.add("Sync Task 2", () => {
     syncTask2();
   }),
-  b.add("Async ReadFile", async () => {
+  b.add("Async Task 2", async () => {
     await asyncTask2();
   }),
   b.cycle(),

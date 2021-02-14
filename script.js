@@ -5,7 +5,7 @@ const faker = require("faker");
 /**
  * Change this value to increase the test sample
  */
-const TEST_CASE_SIZE = 100;
+const TEST_CASE_SIZE = 1000;
 
 const emptyList = new Array(TEST_CASE_SIZE).fill(null);
 
