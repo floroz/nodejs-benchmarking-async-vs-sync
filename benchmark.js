@@ -19,7 +19,7 @@ b.suite(
   b.cycle(),
   b.complete(),
   b.save({
-    file: "benchmark-1",
+    file: "blocking-vs-non_blocking",
     folder: "benchmark",
     format: "chart.html",
   })
@@ -36,7 +36,7 @@ b.suite(
   b.cycle(),
   b.complete(),
   b.save({
-    file: "benchmark-2",
+    file: "file-system",
     folder: "benchmark",
     format: "chart.html",
   })
@@ -56,7 +56,7 @@ b.suite(
   b.cycle(),
   b.complete(),
   b.save({
-    file: "benchmark-bcrypt",
+    file: "bcrypt",
     folder: "benchmark",
     format: "chart.html",
   })
