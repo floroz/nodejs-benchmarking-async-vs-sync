@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.0.0",
     "benny": "^3.6.15",
     "faker": "^5.4.0"
   }

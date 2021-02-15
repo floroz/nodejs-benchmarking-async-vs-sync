@@ -1,47 +1,43 @@
 const fsPromise = require("fs").promises;
 const fs = require("fs");
 const path = require("path");
-const os = require("os");
 
-process.env.UV_THREADPOOL_SIZE = os.cpus().length;
+const sync_task_path = path.join(__dirname, "sync-task.json");
+const async_task_path = path.join(__dirname, "async-task.json");
 
-const someTaskFilePath = path.join(__dirname, "some-task.json");
-const someOtherTaskFilePath = path.join(__dirname, "some-other-task.json");
-
-function createResources() {
-  fs.writeFileSync(someTaskFilePath, JSON.stringify(""));
-  fs.writeFileSync(someOtherTaskFilePath, JSON.stringify(""));
-}
-
-async function doSomeAsyncStuff() {
-  fsPromise.readFile(someTaskFilePath);
-
-  fsPromise.writeFile(someOtherTaskFilePath, JSON.stringify("something"));
-}
-
-function doSomeSyncStuff() {
-  fs.readFileSync(someTaskFilePath);
-  fs.writeFileSync(someOtherTaskFilePath, JSON.stringify("something"));
+function blockingSyncWork() {
+  fs.readFileSync(sync_task_path);
+  fs.writeFileSync(sync_task_path, JSON.stringify("something"));
 }
 
 function syncTask() {
-  createResources();
+  fs.writeFileSync(sync_task_path, JSON.stringify(""));
   const data = fs.readFileSync(path.join(__dirname, "data.json"));
   const json = JSON.parse(data.toString());
 
   for (const _ of json) {
-    doSomeSyncStuff();
+    blockingSyncWork();
   }
+
+  fs.unlinkSync(sync_task_path);
+}
+
+async function nonBlockingAsyncWork() {
+  fsPromise.readFile(async_task_path);
+
+  fsPromise.writeFile(async_task_path, JSON.stringify("something"));
 }
 
 async function asyncTask() {
-  createResources();
+  await fsPromise.writeFile(async_task_path, JSON.stringify(""));
   const buffer = await fsPromise.readFile(path.join(__dirname, "data.json"));
   const json = JSON.parse(buffer.toString());
 
   for (const _ of json) {
-    doSomeAsyncStuff();
+    nonBlockingAsyncWork();
   }
+
+  await fsPromise.unlink(async_task_path);
 }
 
 module.exports = {
